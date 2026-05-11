@@ -460,3 +460,21 @@
                 </div>
             </div>
         </div>
+    </div>
+    <script>
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.date-tab').forEach(el => el.classList.remove('active'));
+            const targetScreen = document.getElementById(id);
+            if (targetScreen) targetScreen.classList.add('active');
+            const targetBtn = document.querySelector(`button[onclick="showScreen('${id}')"]`);
+            if (targetBtn) targetBtn.classList.add('active');
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme') || 'light';
+            document.body.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
+        }
+    </script>
+</body>
+</html>

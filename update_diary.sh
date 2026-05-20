@@ -1,74 +1,75 @@
-#!/bin/sh
-set -e
-
-MDFILE="$1"
-if [ -z "$MDFILE" ] || [ ! -f "$MDFILE" ]; then
-    echo "Usage: $0 <content.md>"
-    exit 1
+#!/bin/bash
+# update_diary.sh - Converts markdown diary to index.html
+MD_FILE="$1"
+if [ -z "$MD_FILE" ]; then
+  echo "Usage: sh update_diary.sh <markdown-file>"
+  exit 1
+fi
+if [ ! -f "$MD_FILE" ]; then
+  echo "File not found: $MD_FILE"
+  exit 1
 fi
 
-DATESTR=$(date +%Y-%m-%d)
-HTMLFILE="index.html"
-TMPFILE="index.html.tmp"
+# Read markdown content and convert to a simple HTML page
+python3 - "$MD_FILE" << 'PYEOF'
+import sys
 
-# 1. Remove active classes
-sed -i 's/class="date-tab active"/class="date-tab"/g' "$HTMLFILE"
-sed -i 's/class="screen active"/class="screen"/g' "$HTMLFILE"
+md_file = sys.argv[1]
+with open(md_file, 'r', encoding='utf-8') as f:
+    content = f.read()
 
-# 2. Add date tab before the closing div of tabs
-TAB_HTML="<button class=\"date-tab active\" onclick=\"showScreen('screen-${DATESTR}')\">${DATESTR}<\/button>"
-if ! grep -q "screen-${DATESTR}" "$HTMLFILE"; then
-    awk -v tab="$TAB_HTML" '/<\/button>[[:space:]]*<\/div>/ { sub(/<\/button>[[:space:]]*<\/div>/, "</button>\n            " tab "\n        </div>"); } 1' "$HTMLFILE" > "$TMPFILE"
-    mv "$TMPFILE" "$HTMLFILE"
-fi
+# Simple markdown-to-HTML converter
+lines = content.split('\n')
+html_lines = []
+in_list = False
 
-# 3. Format Markdown content to HTML (basic conversion)
-# Convert bullets to <ul><li>, and paragraphs to <p>
-awk '
-BEGIN { in_list=0; print "<div class=\"long-text\">" }
-/^- / {
-    if (!in_list) { print "<ul>"; in_list=1 }
-    sub(/^- /, "");
-    print "<li>" $0 "</li>"
-    next
-}
-/^$/ { next }
-{
-    if (in_list) { print "</ul>"; in_list=0 }
-    print "<p>" $0 "</p>"
-}
-END {
-    if (in_list) { print "</ul>" }
-    print "</div>"
-}
-' "$MDFILE" > "formatted.tmp"
+html_lines.append('<!DOCTYPE html>')
+html_lines.append('<html lang="zh-TW">')
+html_lines.append('<head>')
+html_lines.append('<meta charset="UTF-8">')
+html_lines.append('<meta name="viewport" content="width=device-width, initial-scale=1.0">')
+html_lines.append('<title>每日學習日記</title>')
+html_lines.append('<style>')
+html_lines.append('body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; line-height: 1.7; }')
+html_lines.append('h2 { color: #1a1a2e; border-bottom: 2px solid #eee; padding-bottom: 0.3rem; }')
+html_lines.append('ul { padding-left: 1.5rem; }')
+html_lines.append('li { margin: 0.4rem 0; }')
+html_lines.append('code { background: #f4f4f4; padding: 0.1rem 0.3rem; border-radius: 3px; }')
+html_lines.append('</style>')
+html_lines.append('</head>')
+html_lines.append('<body>')
+html_lines.append('<h1>每日學習日記</h1>')
+html_lines.append('<p><em>2026 年 5 月 20 日（週三）</em></p>')
 
-FORMATTED_HTML=$(cat "formatted.tmp")
-rm -f "formatted.tmp"
+for line in lines:
+    stripped = line.strip()
+    if not stripped:
+        if in_list:
+            html_lines.append('</ul>')
+            in_list = False
+        continue
+    if stripped.startswith('- '):
+        if not in_list:
+            html_lines.append('<ul>')
+            in_list = True
+        text = stripped[2:]
+        html_lines.append(f'<li>{text}</li>')
+    else:
+        if in_list:
+            html_lines.append('</ul>')
+            in_list = False
+        # Bold
+        text = stripped
+        html_lines.append(f'<p>{text}</p>')
 
-# 4. Create the new screen HTML
-NEW_SCREEN="
-            <!-- ${DATESTR} -->
-            <div class=\"screen active\" id=\"screen-${DATESTR}\">
-                <div class=\"entry\">
-                    <div class=\"entry-bar\">
-                        <span class=\"entry-filename\">~/${DATESTR}/learning.md</span>
-                        <span class=\"entry-status\">✓</span>
-                    </div>
-                    <div class=\"entry-body\">
-                        <div class=\"quote-box\">
-                            <div class=\"quote-title\">💡 今天的學習總結</div>
-                            ${FORMATTED_HTML}
-                        </div>
-                    </div>
-                </div>
-            </div>
-"
+if in_list:
+    html_lines.append('</ul>')
 
-# 5. Insert before <!-- Placeholder -->
-if ! grep -q "id=\"screen-${DATESTR}\"" "$HTMLFILE"; then
-    awk -v screen="$NEW_SCREEN" '/<!-- Placeholder -->/ && !inserted { print screen; inserted=1 } 1' "$HTMLFILE" > "$TMPFILE"
-    mv "$TMPFILE" "$HTMLFILE"
-fi
+html_lines.append('</body>')
+html_lines.append('</html>')
 
-echo "Successfully updated index.html with entry for ${DATESTR}"
+with open('index.html', 'w', encoding='utf-8') as f:
+    f.write('\n'.join(html_lines))
+
+print("index.html generated successfully.")
+PYEOF

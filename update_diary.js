@@ -14,7 +14,7 @@ let html = fs.readFileSync('index.html', 'utf8');
 
 // 1. Add date nav item
 const newNav = `                <a onclick="showScreen('screen-${dateStr}')" class="nav-item nav-date-item" id="nav-screen-${dateStr}">
-                    <i class="fa-regular fa-calendar"></i> ${dateStr}
+                    <i class="fa-regular fa-folder-open"></i> ${dateStr}
                 </a>`;
 
 if (!html.includes(`id="nav-screen-${dateStr}"`)) {
@@ -36,10 +36,10 @@ const newScreen = `
                     <div class="diary-card">
                         <div class="diary-header">
                             <div class="diary-title">
-                                <i class="fa-regular fa-lightbulb" style="color: #f59e0b;"></i> 今天的學習總結
+                                <i class="fa-solid fa-code-commit"></i> LOG ENTRY
                             </div>
                             <div class="diary-status">
-                                <i class="fa-solid fa-check"></i> 同步完成
+                                <i class="fa-solid fa-check"></i> SYNCED
                             </div>
                         </div>
                         <div class="diary-body">
@@ -55,4 +55,4 @@ if (!html.includes(`id="screen-${dateStr}"`)) {
 }
 
 fs.writeFileSync('index.html', html);
-console.log(`Successfully updated index.html with SaaS layout entry for ${dateStr}`);
+console.log(`Successfully updated index.html with Flat SaaS layout entry for ${dateStr}`);

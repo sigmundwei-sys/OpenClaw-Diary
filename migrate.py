@@ -33,46 +33,53 @@ saas_html_template = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🦞 OpenClaw Diary | Flat UI SaaS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>☕ 小龍的生活日記 | Lifestyle Diary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            /* Flat Design SaaS Dashboard Colors */
-            --bg-body: #FFFBEB;
-            --bg-sidebar: #FFFBEB;
+            /* Lifestyle & Soft UI Evolution Colors */
+            --bg-body: #FAFAFA;
+            --bg-sidebar: #FAFAFA;
             --bg-card: #FFFFFF;
-            --text-main: #0F172A;
-            --text-muted: #92400E;
-            --border-color: #F1E8E2;
-            --primary: #92400E;
-            --primary-hover: #A16207;
-            --accent: #6366F1;
-            --sidebar-active: #F8F3F0;
-            --sidebar-active-text: #92400E;
+            --text-main: #09090B;
+            --text-muted: #71717A;
+            --border-color: #E4E4E7;
+            --primary: #18181B;
+            --primary-hover: #3F3F46;
+            --accent: #2563EB;
+            --sidebar-active: #F4F4F5;
+            --sidebar-active-text: #18181B;
             
-            --radius-md: 0px; /* Flat design often uses sharp or very slightly rounded edges */
-            --radius-lg: 4px;
+            --radius-md: 12px; 
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+            
+            --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.08);
         }
 
         [data-theme="dark"] {
-            --bg-body: #0F172A;
-            --bg-sidebar: #0F172A;
-            --bg-card: #1E293B;
-            --text-main: #F8F3F0;
-            --text-muted: #E2E8F0;
-            --border-color: #334155;
-            --sidebar-active: #1E293B;
-            --sidebar-active-text: #F8F3F0;
-            --primary: #A16207;
+            --bg-body: #09090B;
+            --bg-sidebar: #09090B;
+            --bg-card: #18181B;
+            --text-main: #FAFAFA;
+            --text-muted: #A1A1AA;
+            --border-color: #27272A;
+            --sidebar-active: #27272A;
+            --sidebar-active-text: #FAFAFA;
+            --primary: #FAFAFA;
+            --primary-hover: #D4D4D8;
+            --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.6);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Fira Sans', sans-serif;
-            transition: background-color 0.15s ease, color 0.15s ease;
+            font-family: 'Quicksand', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
         }
 
         body {
@@ -81,74 +88,89 @@ saas_html_template = """<!DOCTYPE html>
             display: flex;
             height: 100vh;
             overflow: hidden;
+            letter-spacing: 0.02em;
         }
 
-        /* Typography focused styling */
-        h1, h2, h3, h4, .nav-section-title, .diary-title, .kpi-value {
-            font-family: 'Fira Code', monospace;
+        /* Typography */
+        h1, h2, h3, .diary-title, .welcome-title {
+            font-family: 'Caveat', cursive;
+            letter-spacing: 0.05em;
         }
 
         /* Sidebar */
         .sidebar {
-            width: 260px;
+            width: 280px;
             background-color: var(--bg-sidebar);
-            border-right: 2px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
         }
 
         .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 2px solid var(--border-color);
+            padding: 2rem 1.5rem 1rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            font-size: 1.25rem;
+            font-size: 2.25rem;
             font-weight: 700;
-            font-family: 'Fira Code', monospace;
+            font-family: 'Caveat', cursive;
             color: var(--primary);
         }
 
         .sidebar-nav {
-            padding: 1rem 0;
+            padding: 1rem 1rem;
             overflow-y: auto;
             flex-grow: 1;
         }
 
         .nav-section-title {
-            padding: 0 1.5rem;
-            font-size: 0.75rem;
+            padding: 0 1rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
             color: var(--text-muted);
-            font-weight: 600;
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            padding: 0.75rem 1.5rem;
-            color: var(--text-main);
+            padding: 0.875rem 1rem;
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            gap: 0.75rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            gap: 0.875rem;
             cursor: pointer;
-            border-left: 4px solid transparent;
+            border-radius: var(--radius-md);
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-item i {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
         }
 
         .nav-item:hover {
             background-color: var(--sidebar-active);
+            color: var(--primary);
+        }
+        
+        .nav-item:hover i {
+            color: var(--accent);
         }
 
         .nav-item.active {
-            background-color: var(--sidebar-active);
-            color: var(--sidebar-active-text);
-            border-left-color: var(--primary);
-            font-weight: 600;
+            background-color: var(--primary);
+            color: var(--bg-body);
+        }
+        
+        .nav-item.active i {
+            color: var(--bg-body);
         }
 
         /* Main Content */
@@ -157,23 +179,23 @@ saas_html_template = """<!DOCTYPE html>
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            background-color: var(--bg-body);
         }
 
         .topbar {
-            height: 64px;
-            background-color: var(--bg-card);
-            border-bottom: 2px solid var(--border-color);
+            height: 72px;
+            background-color: transparent;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 2rem;
+            padding: 0 2.5rem;
             flex-shrink: 0;
         }
 
         .breadcrumb {
-            font-size: 0.875rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
-            font-family: 'Fira Code', monospace;
+            font-weight: 500;
         }
         .breadcrumb span {
             color: var(--primary);
@@ -187,56 +209,65 @@ saas_html_template = """<!DOCTYPE html>
         }
 
         .icon-btn {
-            background: none;
-            border: 2px solid var(--border-color);
-            color: var(--text-main);
-            font-size: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 1.1rem;
             cursor: pointer;
-            padding: 0.5rem 0.75rem;
-            border-radius: var(--radius-lg);
-            font-family: 'Fira Code', monospace;
+            padding: 0.6rem;
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-soft);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .icon-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background-color: var(--sidebar-active);
+            color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
         }
 
         .content-scroll {
             flex-grow: 1;
-            padding: 2rem;
+            padding: 1rem 2.5rem 3rem;
             overflow-y: auto;
         }
 
         /* KPIs */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2.5rem;
         }
 
         .kpi-card {
             background-color: var(--bg-card);
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
-            padding: 1.5rem;
+            padding: 1.75rem;
             display: flex;
             align-items: center;
             gap: 1.25rem;
-            /* No shadows in flat design */
+            box-shadow: var(--shadow-soft);
+        }
+        .kpi-card:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         .kpi-icon {
-            width: 48px;
-            height: 48px;
-            background-color: var(--sidebar-active);
-            color: var(--primary);
+            width: 54px;
+            height: 54px;
+            background-color: var(--bg-body);
+            color: var(--accent);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            border: 2px solid var(--primary);
+            border-radius: var(--radius-full);
         }
 
         .kpi-info {
@@ -245,80 +276,97 @@ saas_html_template = """<!DOCTYPE html>
         }
 
         .kpi-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
             color: var(--text-muted);
             margin-bottom: 0.25rem;
-            letter-spacing: 0.05em;
         }
 
         .kpi-value {
             font-size: 1.75rem;
             font-weight: 700;
-            color: var(--text-main);
+            color: var(--primary);
         }
 
         /* Diary Screen */
         .screen {
             display: none;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .screen.active {
             display: block;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .diary-card {
             background-color: var(--bg-card);
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
             overflow: hidden;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-soft);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .diary-header {
-            padding: 1rem 1.5rem;
-            border-bottom: 2px solid var(--border-color);
+            padding: 2rem 2.5rem 1.5rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: var(--sidebar-active);
+            border-bottom: 1px solid var(--bg-body);
         }
 
         .diary-title {
-            font-size: 1.125rem;
+            font-size: 2.25rem;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
             color: var(--primary);
         }
 
         .diary-status {
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             color: var(--accent);
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            background: rgba(37, 99, 235, 0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-full);
         }
 
         .diary-body {
-            padding: 1.5rem;
-            line-height: 1.7;
-            font-size: 1rem;
+            padding: 2rem 2.5rem 3rem;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: var(--text-main);
         }
 
         .diary-body ul {
             padding-left: 1.5rem;
             margin-bottom: 1.5rem;
+            list-style-type: none;
         }
         .diary-body li {
-            margin-bottom: 0.75rem;
-            padding-left: 0.5rem;
+            margin-bottom: 1rem;
+            position: relative;
         }
-        .diary-body li::marker {
-            color: var(--primary);
+        .diary-body li::before {
+            content: '✿';
+            position: absolute;
+            left: -1.5rem;
+            color: var(--accent);
+            font-size: 0.8em;
+            top: 0.2rem;
         }
         .diary-body p {
             margin-bottom: 1.5rem;
@@ -327,32 +375,34 @@ saas_html_template = """<!DOCTYPE html>
         /* Welcome Section */
         .welcome-card {
             text-align: center;
-            padding: 4rem 2rem;
-            border: 2px dashed var(--primary);
+            padding: 6rem 2rem;
+            border: none;
             background-color: transparent;
+            box-shadow: none;
         }
         .welcome-card i {
-            font-size: 3rem; 
-            color: var(--primary); 
+            font-size: 3.5rem; 
+            color: var(--accent); 
             margin-bottom: 1.5rem;
         }
-        .welcome-card h2 {
+        .welcome-title {
             margin-bottom: 1rem;
-            color: var(--text-main);
+            color: var(--primary);
+            font-size: 3rem;
         }
     </style>
 </head>
 <body>
     <div class="sidebar">
         <div class="sidebar-header">
-            🦞 OpenClaw Diary
+            🦞 OpenClaw
         </div>
         <nav class="sidebar-nav">
             <a onclick="showOverview()" class="nav-item active" id="nav-screen-dashboard">
-                <i class="fa-solid fa-server"></i> Dashboard
+                <i class="fa-solid fa-house"></i> Home
             </a>
             
-            <div class="nav-section-title">Log Entries</div>
+            <div class="nav-section-title">My Journal</div>
             <div id="date-tabs-container">
 <!-- DIARY_NAV_PLACEHOLDER -->
             </div>
@@ -361,10 +411,10 @@ saas_html_template = """<!DOCTYPE html>
 
     <div class="main-content">
         <header class="topbar">
-            <div class="breadcrumb">Workspace / <span id="current-date-display">Dashboard</span></div>
+            <div class="breadcrumb">My Journal / <span id="current-date-display">Home</span></div>
             <div class="topbar-actions">
                 <button id="theme-toggle" class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">
-                    <i class="fa-solid fa-circle-half-stroke"></i> Theme
+                    <i class="fa-solid fa-moon"></i>
                 </button>
             </div>
         </header>
@@ -372,23 +422,23 @@ saas_html_template = """<!DOCTYPE html>
         <div class="content-scroll">
             <div class="kpi-grid" id="dashboard-kpis">
                 <div class="kpi-card">
-                    <div class="kpi-icon"><i class="fa-solid fa-terminal"></i></div>
+                    <div class="kpi-icon"><i class="fa-solid fa-book-open"></i></div>
                     <div class="kpi-info">
-                        <div class="kpi-label">Total Logs</div>
+                        <div class="kpi-label">Entries Written</div>
                         <div class="kpi-value" id="kpi-total-entries">0</div>
                     </div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="kpi-icon"><i class="fa-solid fa-seedling"></i></div>
                     <div class="kpi-info">
-                        <div class="kpi-label">Active Streak</div>
+                        <div class="kpi-label">Current Streak</div>
                         <div class="kpi-value" id="kpi-streak">0 Days</div>
                     </div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-icon"><i class="fa-brands fa-github-alt"></i></div>
+                    <div class="kpi-icon"><i class="fa-regular fa-star"></i></div>
                     <div class="kpi-info">
-                        <div class="kpi-label">Repo Impact</div>
+                        <div class="kpi-label">Stars Reached</div>
                         <div class="kpi-value">136</div>
                     </div>
                 </div>
@@ -400,9 +450,9 @@ saas_html_template = """<!DOCTYPE html>
             
             <div class="screen active" id="screen-dashboard">
                 <div class="diary-card welcome-card">
-                    <i class="fa-solid fa-satellite-dish"></i>
-                    <h2>System Online</h2>
-                    <p style="color: var(--text-muted);">Select a log entry from the sidebar to inspect learning events.</p>
+                    <i class="fa-solid fa-leaf"></i>
+                    <h2 class="welcome-title">Welcome to Your Space</h2>
+                    <p style="color: var(--text-muted); font-size: 1.1rem;">Take a deep breath and select an entry to reflect on your journey.</p>
                 </div>
             </div>
         </div>
@@ -431,7 +481,7 @@ saas_html_template = """<!DOCTYPE html>
                 const dateStr = id.replace('screen-', '');
                 document.getElementById('current-date-display').textContent = dateStr;
             } else {
-                document.getElementById('current-date-display').textContent = 'Dashboard';
+                document.getElementById('current-date-display').textContent = 'Home';
                 document.getElementById('dashboard-kpis').style.display = 'grid';
             }
         }
@@ -445,16 +495,20 @@ saas_html_template = """<!DOCTYPE html>
             const body = document.documentElement;
             const isDark = body.getAttribute('data-theme') === 'dark';
             body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            const icon = document.querySelector('#theme-toggle i');
             if(isDark) {
                 localStorage.setItem('theme', 'light');
+                icon.className = 'fa-solid fa-moon';
             } else {
                 localStorage.setItem('theme', 'dark');
+                icon.className = 'fa-solid fa-sun';
             }
         }
 
         // Load theme
         if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.setAttribute('data-theme', 'dark');
+            document.querySelector('#theme-toggle i').className = 'fa-solid fa-sun';
         }
 
         // Initialize first screen if exists
@@ -474,7 +528,7 @@ content_placeholder = ""
 
 for e in entries:
     nav_placeholder += f"""                <a onclick="showScreen('screen-{e['id']}')" class="nav-item nav-date-item" id="nav-screen-{e['id']}">
-                    <i class="fa-regular fa-folder-open"></i> {e['label']}
+                    <i class="fa-regular fa-calendar-heart"></i> {e['label']}
                 </a>\n"""
     
     content_placeholder += f"""                <!-- {e['label']} -->
@@ -482,10 +536,10 @@ for e in entries:
                     <div class="diary-card">
                         <div class="diary-header">
                             <div class="diary-title">
-                                <i class="fa-solid fa-code-commit"></i> LOG ENTRY
+                                <i class="fa-solid fa-pen-nib"></i> Dear Diary
                             </div>
                             <div class="diary-status">
-                                <i class="fa-solid fa-check"></i> SYNCED
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Saved
                             </div>
                         </div>
                         <div class="diary-body">
@@ -516,7 +570,7 @@ let html = fs.readFileSync('index.html', 'utf8');
 
 // 1. Add date nav item
 const newNav = `                <a onclick="showScreen('screen-${dateStr}')" class="nav-item nav-date-item" id="nav-screen-${dateStr}">
-                    <i class="fa-regular fa-folder-open"></i> ${dateStr}
+                    <i class="fa-regular fa-calendar-heart"></i> ${dateStr}
                 </a>`;
 
 if (!html.includes(`id="nav-screen-${dateStr}"`)) {
@@ -538,10 +592,10 @@ const newScreen = `
                     <div class="diary-card">
                         <div class="diary-header">
                             <div class="diary-title">
-                                <i class="fa-solid fa-code-commit"></i> LOG ENTRY
+                                <i class="fa-solid fa-pen-nib"></i> Dear Diary
                             </div>
                             <div class="diary-status">
-                                <i class="fa-solid fa-check"></i> SYNCED
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Saved
                             </div>
                         </div>
                         <div class="diary-body">
@@ -557,7 +611,7 @@ if (!html.includes(`id="screen-${dateStr}"`)) {
 }
 
 fs.writeFileSync('index.html', html);
-console.log(`Successfully updated index.html with Flat SaaS layout entry for ${dateStr}`);
+console.log(`Successfully updated index.html with Lifestyle layout entry for ${dateStr}`);
 """
 
 with open('update_diary.js.new', 'w', encoding='utf-8') as f:

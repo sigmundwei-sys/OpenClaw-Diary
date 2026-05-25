@@ -12,23 +12,16 @@ const dateStr = process.argv[3] || new Date().toISOString().split('T')[0];
 
 let html = fs.readFileSync('index.html', 'utf8');
 
-// 1. Remove active classes from old tabs and screens
-html = html.replace(/class="date-tab active"/g, 'class="date-tab"');
-html = html.replace(/class="screen active"/g, 'class="screen"');
+// 1. Add date nav item
+const newNav = `                <a onclick="showScreen('screen-${dateStr}')" class="nav-item nav-date-item" id="nav-screen-${dateStr}">
+                    <i class="fa-regular fa-calendar"></i> ${dateStr}
+                </a>`;
 
-// 2. Add date tab
-const newTab = `<button class="date-tab active" onclick="showScreen('screen-${dateStr}')">${dateStr}</button>`;
-if (!html.includes(`'screen-${dateStr}'`)) {
-  // Replace the closing div of tabs with the new tab and closing div
-  html = html.replace(/<\/button>\s*<\/div>/, `</button>\n            ${newTab}\n        </div>`);
-  // If it failed, try another match
-  if (!html.includes(newTab)) {
-    console.error("Failed to insert date tab. Is the HTML structure correct?");
-  }
+if (!html.includes(`id="nav-screen-${dateStr}"`)) {
+  html = html.replace('<!-- DIARY_NAV_PLACEHOLDER -->', `${newNav}\n<!-- DIARY_NAV_PLACEHOLDER -->`);
 }
 
-// 3. Format content to HTML
-// Basic markdown parsing
+// 2. Format content to HTML
 const formattedContent = content.split('\n\n').map(p => {
   if (p.startsWith('- ')) {
     return '<ul>' + p.split('\n').filter(Boolean).map(li => `<li>${li.replace(/^- /, '')}</li>`).join('') + '</ul>';
@@ -36,31 +29,30 @@ const formattedContent = content.split('\n\n').map(p => {
   return `<p>${p}</p>`;
 }).join('\n');
 
-// 4. Add screen div
+// 3. Add screen div
 const newScreen = `
-            <!-- ${dateStr} -->
-            <div class="screen active" id="screen-${dateStr}">
-                <div class="entry">
-                    <div class="entry-bar">
-                        <span class="entry-filename">~/${dateStr}/learning.md</span>
-                        <span class="entry-status">✓</span>
-                    </div>
-                    <div class="entry-body">
-                        <div class="quote-box">
-                            <div class="quote-title">💡 今天的學習總結</div>
-                            <div class="long-text">
-${formattedContent}
+                <!-- ${dateStr} -->
+                <div class="screen" id="screen-${dateStr}">
+                    <div class="diary-card">
+                        <div class="diary-header">
+                            <div class="diary-title">
+                                <i class="fa-regular fa-lightbulb" style="color: #f59e0b;"></i> 今天的學習總結
                             </div>
+                            <div class="diary-status">
+                                <i class="fa-solid fa-check"></i> 同步完成
+                            </div>
+                        </div>
+                        <div class="diary-body">
+                            ${formattedContent}
                         </div>
                     </div>
                 </div>
-            </div>
 `;
 
 // Insert before the placeholder
 if (!html.includes(`id="screen-${dateStr}"`)) {
-  html = html.replace('<!-- Placeholder -->', `${newScreen}\n            <!-- Placeholder -->`);
+  html = html.replace('<!-- DIARY_CONTENT_PLACEHOLDER -->', `${newScreen}\n<!-- DIARY_CONTENT_PLACEHOLDER -->`);
 }
 
 fs.writeFileSync('index.html', html);
-console.log(`Successfully updated index.html with entry for ${dateStr}`);
+console.log(`Successfully updated index.html with SaaS layout entry for ${dateStr}`);

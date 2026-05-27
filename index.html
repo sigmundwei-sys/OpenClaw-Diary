@@ -431,7 +431,8 @@
                 <button id="theme-toggle" class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">
                     <i class="fa-solid fa-moon"></i>
                 </button>
-            </div>
+            <button class="date-tab active" onclick="showScreen('screen-2026-05-27')">2026-05-27</button>
+        </div>
         </header>
 
         <div class="content-scroll">
@@ -819,9 +820,32 @@
                 </div>
             </div>
         </div>
-    </div>
+            <!-- 2026-05-27 -->
+            <div class="screen active" id="screen-2026-05-27">
+                <div class="entry">
+                    <div class="entry-bar">
+                        <span class="entry-filename">~/2026-05-27/learning.md</span>
+                        <span class="entry-status">✓</span>
+                    </div>
+                    <div class="entry-body">
+                        <div class="quote-box">
+                            <div class="quote-title">💡 今天的學習總結</div>
+                            <div class="long-text">
+<p>目前的 AI 發展聚焦於提升 Agent 的代碼搜索效率與工作流自動化。值得關注的工具包括：
+- **semble**: 提供極高效率的 Agent 代碼搜索，號稱比 grep+read 減少 98% 的 Token 消耗。
+- **usage**: 專為 macOS 設計的選單列工具，可即時追蹤 Claude Code 與 Codex 的配額與成本。
+- **gbrain**: Garry Tan 推出的 OpenClaw/Hermes Agent 核心大腦設定。</p>
+<p>GitHub Stars 追蹤 (sigmundwei-sys)：
+- 關注 WezTerm 相關的 Session 管理插件，如 `resurrect.wezterm` 及 `awesome-wezterm`，顯示對終端機工作流持久化與環境配置的高度興趣。
+- 持續關注高效能 CLI 工具（如 Alacritty, yt-dlp）與 AI 代理工作區管理工具。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <script>
+        </div>
+        <script>
         const totalEntries = document.querySelectorAll('.nav-date-item').length;
         document.getElementById('kpi-total-entries').textContent = totalEntries;
         document.getElementById('kpi-streak').textContent = totalEntries > 0 ? '5 Days' : '0 Days';

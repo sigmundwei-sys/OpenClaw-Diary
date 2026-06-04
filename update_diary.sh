@@ -35,12 +35,12 @@ html = re.sub(r'class="screen active"', 'class="screen"', html)
 html = re.sub(r'class="nav-item nav-home active"', 'class="nav-item nav-home"', html)
 html = re.sub(r'class="nav-item active"', 'class="nav-item"', html)
 
-new_nav = f'''                <a onclick="showScreen('screen-{date_str}')" class="nav-item nav-date-item" id="nav-screen-{date_str}">
+new_nav = f'''                <a onclick="showScreen('screen-{date_str}')" class="nav-item nav-date-item active" id="nav-screen-{date_str}">
                     <span class="nav-day">{day_num}</span><span class="nav-date">{date_label}</span>
                 </a>'''
 
 if f'id="nav-screen-{date_str}"' not in html:
-    html = html.replace('<!-- DIARY_NAV_PLACEHOLDER -->', f'{new_nav}\n<!-- DIARY_NAV_PLACEHOLDER -->')
+    html = html.replace('<!-- DIARY_NAV_PLACEHOLDER -->', f'<!-- DIARY_NAV_PLACEHOLDER -->\n{new_nav}')
 
 formatted_content = []
 for p in content.split('\n\n'):
@@ -53,7 +53,7 @@ formatted_html = '\n'.join(formatted_content)
 
 new_screen = f'''
                 <!-- {date_str} -->
-                <div class="screen" id="screen-{date_str}">
+                <div class="screen active" id="screen-{date_str}">
                     <div class="diary-card">
                         <div class="diary-header">
                             <div class="diary-title">{date_label}<time datetime="{date_str}">{date_str}</time></div>

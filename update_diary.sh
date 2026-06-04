@@ -31,17 +31,59 @@ with open(md_file, 'r', encoding='utf-8') as f:
 with open('index.html', 'r', encoding='utf-8') as f:
     html = f.read()
 
+# Remove old active classes
 html = re.sub(r'class="screen active"', 'class="screen"', html)
 html = re.sub(r'class="nav-item nav-home active"', 'class="nav-item nav-home"', html)
 html = re.sub(r'class="nav-item active"', 'class="nav-item"', html)
 
-new_nav = f'''                <a onclick="showScreen('screen-{date_str}')" class="nav-item nav-date-item active" id="nav-screen-{date_str}">
+# 1. Collect all nav items
+nav_matches = list(re.finditer(r'<a onclick="showScreen\(\'screen-(\d{4}-\d{2}-\d{2})\'\)" class="nav-item nav-date-item.*?" id="nav-screen-\1">\s*<span class="nav-day">\d+</span><span class="nav-date">.*?</span>\s*</a>', html, flags=re.DOTALL))
+
+items = {}
+for m in nav_matches:
+    ds = m.group(1)
+    items[ds] = m.group(0).replace('nav-item nav-date-item active', 'nav-item nav-date-item').replace('nav-item active nav-date-item', 'nav-item nav-date-item')
+
+# add the new entry
+new_nav = f'''                <a onclick="showScreen('screen-{date_str}')" class="nav-item nav-date-item" id="nav-screen-{date_str}">
                     <span class="nav-day">{day_num}</span><span class="nav-date">{date_label}</span>
                 </a>'''
+items[date_str] = new_nav
 
-if f'id="nav-screen-{date_str}"' not in html:
-    html = html.replace('<!-- DIARY_NAV_PLACEHOLDER -->', f'<!-- DIARY_NAV_PLACEHOLDER -->\n{new_nav}')
+# 2. Rebuild the accordion
+groups = {}
+for ds in sorted(items.keys(), reverse=True):
+    ym = ds[:7]
+    if ym not in groups:
+        groups[ym] = []
+    groups[ym].append((ds, items[ds]))
 
+new_nav_html = ""
+for i, ym in enumerate(sorted(groups.keys(), reverse=True)):
+    year, month = ym.split('-')
+    month_name = MONTHS[int(month)-1]
+    
+    is_open = (i == 0)
+    
+    active_cls = " active" if is_open else ""
+    display_style = "block" if is_open else "none"
+    icon = "fa-chevron-down" if is_open else "fa-chevron-right"
+    
+    new_nav_html += f'''            <div class="month-group" data-month="{ym}">
+                <div class="month-header{active_cls}" onclick="toggleMonth(this)">
+                    {month_name} {year} <i class="fa-solid {icon}"></i>
+                </div>
+                <div class="month-items" style="display: {display_style};">\n'''
+    for ds, m_str in groups[ym]:
+        if ds == date_str:
+            m_str = m_str.replace('class="nav-item nav-date-item"', 'class="nav-item nav-date-item active"')
+        new_nav_html += m_str + "\n"
+    new_nav_html += "                </div>\n            </div>\n"
+
+# replace the entire date-tabs-container
+html = re.sub(r'<div id="date-tabs-container">.*?</div>\s*</nav>', f'<div id="date-tabs-container">\n{new_nav_html}            </div>\n        </nav>', html, flags=re.DOTALL)
+
+# Handle content payload
 formatted_content = []
 for p in content.split('\n\n'):
     if p.startswith('- '):

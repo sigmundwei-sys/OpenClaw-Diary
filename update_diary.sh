@@ -23,7 +23,7 @@ date_str = sys.argv[2]
 MONTHS = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
 d = datetime.strptime(date_str, '%Y-%m-%d')
 day_num = f'{d.day:02d}'
-date_label = f'{MONTHS[d.month - 1]} {d.day} 日'
+date_label = f'{d.month:02d}-{d.day:02d}'
 
 with open(md_file, 'r', encoding='utf-8') as f:
     content = f.read().strip()

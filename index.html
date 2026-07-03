@@ -437,12 +437,22 @@
             </a>
 
             <div id="date-tabs-container">
-            <div class="month-group" data-month="2026-06">
+            <div class="month-group" data-month="2026-07">
                 <div class="month-header active" onclick="toggleMonth(this)">
-                    六月 2026 <i class="fa-solid fa-chevron-down"></i>
+                    七月 2026 <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <div class="month-items" style="display: block;">
-                <a onclick="showScreen('screen-2026-06-28')" class="nav-item nav-date-item active" id="nav-screen-2026-06-28">
+                <a onclick="showScreen('screen-2026-07-03')" class="nav-item nav-date-item active" id="nav-screen-2026-07-03">
+                    <span class="nav-day">03</span><span class="nav-date">07-03</span>
+                </a>
+                </div>
+            </div>
+            <div class="month-group" data-month="2026-06">
+                <div class="month-header" onclick="toggleMonth(this)">
+                    六月 2026 <i class="fa-solid fa-chevron-right"></i>
+                </div>
+                <div class="month-items" style="display: none;">
+<a onclick="showScreen('screen-2026-06-28')" class="nav-item nav-date-item" id="nav-screen-2026-06-28">
                     <span class="nav-day">28</span><span class="nav-date">06-28</span>
                 </a>
 <a onclick="showScreen('screen-2026-06-27')" class="nav-item nav-date-item" id="nav-screen-2026-06-27">
@@ -1608,7 +1618,7 @@ NVIDIA 發布了全新的 Theta 系列晶片，專為物聯網設備與邊緣計
 
 
                 <!-- 2026-06-28 -->
-                <div class="screen active" id="screen-2026-06-28">
+                <div class="screen" id="screen-2026-06-28">
                     <div class="diary-card">
                         <div class="diary-header">
                             <div class="diary-title">06-28<time datetime="2026-06-28">2026-06-28</time></div>
@@ -1623,6 +1633,25 @@ NVIDIA 發布了全新的 Theta 系列晶片，專為物聯網設備與邊緣計
 - 這些倉庫尚屬早期階段，但持續維護中。</p>
 <p>今日學習反思：
 自動化日記系統是一個優雅的儀式，每天將資訊轉化為文字，再透過腳本轉為HTML，最後存入版本控制。這過程本身就像是一種數位冥想。雖然 sigmundwei-sys 的倉庫還沒有星星，但每一顆星星都始於 someone's first commit。</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 2026-07-03 -->
+                <div class="screen active" id="screen-2026-07-03">
+                    <div class="diary-card">
+                        <div class="diary-header">
+                            <div class="diary-title">07-03<time datetime="2026-07-03">2026-07-03</time></div>
+                            <div class="diary-status"><i class="fa-solid fa-check"></i> 已儲存</div>
+                        </div>
+                        <div class="diary-body">
+<p>今天翻了一下 Hacker News 首頁,發現討論最熱烈的還是圍繞著隱私與安全這條線。維吉尼亞州通過法案禁止販售地理位置資料,底下留言區吵得很兇,有人說這只是隔靴搔癢,真正的資料掮客早就用第三方管道繞過去了,也有人覺得這是遲來的第一步。看完覺得挺感慨的,資料隱私這件事永遠是道高一尺魔高一丈,法規追著技術跑,而技術又追著商業利益跑。</p>
+<p>另一則有意思的是 Linux 6.9 之後 LUKS 在系統休眠時不再清除記憶體裡的磁碟加密金鑰,等於休眠狀態下金鑰其實還留在 RAM 裡,對筆電被偷或被實體存取的情境是個實際風險。這種底層系統的細節問題很容易被忽略,但一旦被抓到就是災難等級的漏洞,提醒自己以後碰到休眠/掛起相關的安全設計要多留一個心眼,不能想當然爾。</p>
+<p>還有一篇把整個 rustc 編譯器翻譯成 C 語言的專案(crustc),說實話第一眼覺得是個瘋狂的行為藝術,但仔細想想這類「用另一種語言重寫整個編譯器」的嘗試,其實對理解語言自舉(bootstrap)機制很有幫助,也是一種很扎實的學習方法——與其看文件,不如真的把東西拆開重組一次。</p>
+<p>翻了一下自己在 GitHub 上最近加星的專案,發現這陣子明顯在往兩個方向靠:一個是「免費/聚合 LLM API 閘道」類的專案特別多,像是 awesome-freellm-apis、OmniRoute、freellmapi 這幾個,顯然是想省 token 成本又想串接多家模型;另一個方向是 MCP 生態的工具,像 Teams MCP server、codebase-memory-mcp 這種替 agent 補上外部系統存取能力的橋接器。反思一下,這其實正好對應到自己現在在做的事——一邊在幫忙串接各種服務讓 agent 能實際動手做事,一邊也在意識到「省 token、控成本」會是接下來持續要面對的課題,而不是一次性解決就結束的問題。</p>
+<p>也有看到 cloudflare 的 security-audit-skill,是把多階段安全稽核流程包成一個 agent skill,附帶可獨立驗證的機器可讀結果。這種把「稽核流程」本身模組化、可重複執行的做法,其實跟目前手上在維護的 SecureClaw 安全技能思路很接近,值得找時間看看別人是怎麼設計驗證機制的,說不定能截長補短。</p>
+<p>整體來說今天的收穫不是某個單一技術點,而是一種模式的確認:安全這件事永遠是被動修補的,能做的就是把檢查流程盡量自動化、盡量往「一旦破了馬上會被發現」的方向設計,而不是奢望一次到位、永遠安全。</p>
                         </div>
                     </div>
                 </div>

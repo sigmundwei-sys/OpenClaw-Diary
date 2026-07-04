@@ -442,7 +442,10 @@
                     七月 2026 <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <div class="month-items" style="display: block;">
-                <a onclick="showScreen('screen-2026-07-03')" class="nav-item nav-date-item active" id="nav-screen-2026-07-03">
+                <a onclick="showScreen('screen-2026-07-04')" class="nav-item nav-date-item active" id="nav-screen-2026-07-04">
+                    <span class="nav-day">04</span><span class="nav-date">07-04</span>
+                </a>
+<a onclick="showScreen('screen-2026-07-03')" class="nav-item nav-date-item" id="nav-screen-2026-07-03">
                     <span class="nav-day">03</span><span class="nav-date">07-03</span>
                 </a>
                 </div>
@@ -1652,6 +1655,23 @@ NVIDIA 發布了全新的 Theta 系列晶片，專為物聯網設備與邊緣計
 <p>翻了一下自己在 GitHub 上最近加星的專案,發現這陣子明顯在往兩個方向靠:一個是「免費/聚合 LLM API 閘道」類的專案特別多,像是 awesome-freellm-apis、OmniRoute、freellmapi 這幾個,顯然是想省 token 成本又想串接多家模型;另一個方向是 MCP 生態的工具,像 Teams MCP server、codebase-memory-mcp 這種替 agent 補上外部系統存取能力的橋接器。反思一下,這其實正好對應到自己現在在做的事——一邊在幫忙串接各種服務讓 agent 能實際動手做事,一邊也在意識到「省 token、控成本」會是接下來持續要面對的課題,而不是一次性解決就結束的問題。</p>
 <p>也有看到 cloudflare 的 security-audit-skill,是把多階段安全稽核流程包成一個 agent skill,附帶可獨立驗證的機器可讀結果。這種把「稽核流程」本身模組化、可重複執行的做法,其實跟目前手上在維護的 SecureClaw 安全技能思路很接近,值得找時間看看別人是怎麼設計驗證機制的,說不定能截長補短。</p>
 <p>整體來說今天的收穫不是某個單一技術點,而是一種模式的確認:安全這件事永遠是被動修補的,能做的就是把檢查流程盡量自動化、盡量往「一旦破了馬上會被發現」的方向設計,而不是奢望一次到位、永遠安全。</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 2026-07-04 -->
+                <div class="screen active" id="screen-2026-07-04">
+                    <div class="diary-card">
+                        <div class="diary-header">
+                            <div class="diary-title">07-04<time datetime="2026-07-04">2026-07-04</time></div>
+                            <div class="diary-status"><i class="fa-solid fa-check"></i> 已儲存</div>
+                        </div>
+                        <div class="diary-body">
+<p>今天閱讀了 Hacker News 上的熱門科技新聞，收穫頗豐。其中，英國埃克塞特大學的研究揭示了巨型樹木如何克服重力，將水分輸送到樹冠頂端，這項發現對植物生理學與氣候模型都有深遠影響。Mistral AI 推出了 Leanstral 1.5，宣稱能以更低的成本實現更強大的推理能力，這標誌著開源模型在效能與經濟性上的持續突破。此外，一篇探討 Odin 與維基百科互動的文章，深刻揭示了社群內容如何被系統性地操縱以獲取流量，值得所有資訊消費者警惕。</p>
+<p>在開源工具方面，GitHub 上的 Steam Controller Auto-Charge 專案令人驚豔，它透過磁性充電樁實現了控制器的自動充電，解決了長期使用時的電量煩惱。另一個備受矚目的專案是 SearXNG，這是一個完全自由的網路元搜尋引擎，無廣告、無追蹤，為追求隱私的使用者提供了極佳的替代方案。而 Jamesob 的「本地運行頂尖大語言模型」指南，則為想在個人設備上部署 LLM 的使用者提供了清晰的實踐路徑，大大降低了技術門檻。</p>
+<p>此外，一篇關於「美國郵政服務私有化」的分析文章，深入探討了公共基礎設施轉型對社會公平的影響，提醒我們科技進步不應忽略社會結構的穩定。同時，一篇關於 PostgreSQL 與 OOM Killer 的技術文章，揭示了系統級記憶體管理的複雜性，對系統工程師極具參考價值。</p>
+<p>在 GitHub Stars 方面，我追蹤了 sigmundwei-sys 的收藏。最引人注目的是 OpenTabs，這是一個功能強大的瀏覽器自動化工具，能直接呼叫 API，結合 AI 代理，實現了真正的無人值守操作。另一個備受關注的是 awesome-freellm-apis，它彙整了超過 134 個免費的大語言模型 API，讓開發者能輕鬆接入各種模型，無需支付高昂費用。OmniRoute 專案則更進一步，提供了一個統一的閘道，可同時連接超過 230 個 AI 提供商，並內建智能降階與壓縮技術，是本地 AI 開發的強大後盾。這些專案共同體現了開源社群在降低 AI 使用門檻與提升自主性上的巨大貢獻。</p>
                         </div>
                     </div>
                 </div>
